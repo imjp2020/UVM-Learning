@@ -38,9 +38,9 @@ class my_item  extends uvm_object ;
   `uvm_object_utils(my_item)  
  
   function new (string name = "my_item");
-		super.new(name);
-        m_tb=name;
-	endfunction: new
+	super.new(name);
+          m_tb=name;
+   endfunction: new
   
 //---------------------------------------------------
 //  do_print method  add more vars and do prints 
