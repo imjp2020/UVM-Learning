@@ -19,6 +19,11 @@ class base_agent  extends uvm_agent;
     super.new(name,parent);
     name=m_name;
   endfunction 
+  
+  virtual function void build_phase (uvm_phase phase);
+     super.build_phase(phase);
+    `uvm_info(get_type_name,"[base_agent  build ] ",UVM_LOW)
+  endfunction
     
 endclass  
 
@@ -37,6 +42,11 @@ class child_agent  extends base_agent;
     name=m_name;
   endfunction 
     
+   virtual function void build_phase (uvm_phase phase);
+     super.build_phase(phase);
+     `uvm_info(get_type_name,"[child_agent  build ] ",UVM_LOW)
+  endfunction
+     
 endclass 
 
 
@@ -68,9 +78,7 @@ class base_env  extends uvm_env;
 //  virtual task run_phase(uvm_phase phase);
 //    #100 global_stop_request();
 //  endfunction
-  
-  
-    
+   
 endclass  
 
 //---------------------------------
@@ -86,18 +94,13 @@ class base_test extends uvm_test;
   function new(string name ,uvm_component parent);
     super.new(name,parent);
   endfunction 
-    
-
   
-  virtual function void build_phase (uvm_phase phase);
-    
+ virtual function void build_phase (uvm_phase phase);
     uvm_factory factory =uvm_factory::get();
     super.build_phase(phase);
     
-    
-    //Enable one of Method USE 'ifdefs to make more feasible to do
     //1.   
-    //set_type_override_by_type(base_agent::get_type(), child_agent::get_type());
+    set_type_override_by_type(base_agent::get_type(), child_agent::get_type());
     
     //2 .using inst_overide observe path of tb_hiee in logs
     // set_inst_override_by_type("m_env.*",base_agent::get_type(), child_agent::get_type());  
@@ -109,16 +112,14 @@ class base_test extends uvm_test;
     //factory.set_inst_override_by_name("base_agent", "child_agent", {get_full_name(), ".m_env.*"});
     
     factory.print();
-    
     m_env =base_env::type_id::create("m_env",this);
     
     //`uvm_info(get_type_name,"[base test build ] ",UVM_LOW)
     //`uvm_info("AGENT",$sformatf("Factory retured of agent type type=%s path=%s",m_agent.get_type_name(),m_agent.get_full_name()),UVM_MEDIUM)
   endfunction
     
-  
-   virtual function void end_of_elaboration_phase(uvm_phase phase);
-    uvm_top.print_topology();
+  virtual function void end_of_elaboration_phase(uvm_phase phase);
+      uvm_top.print_topology();
   endfunction
   
 endclass  
@@ -131,3 +132,4 @@ module tb;
   initial 
     run_test("base_test");
 endmodule
+
