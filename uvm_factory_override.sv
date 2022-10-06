@@ -103,7 +103,7 @@ class base_test extends uvm_test;
     // set_inst_override_by_type("m_env.*",base_agent::get_type(), child_agent::get_type());  
     
     //3.
-    //actory.set_type_override_by_name("base_agent","child_agent",{get_full_name(),".m_env.*"});
+    //factory.set_type_override_by_name("base_agent","child_agent",{get_full_name(),".m_env.*"});
     
     // 4. Override a particular instance by its name
     //factory.set_inst_override_by_name("base_agent", "child_agent", {get_full_name(), ".m_env.*"});
@@ -121,7 +121,6 @@ class base_test extends uvm_test;
     uvm_top.print_topology();
   endfunction
   
-
 endclass  
 
 //---------------------------------------------------
